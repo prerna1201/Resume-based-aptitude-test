@@ -3,7 +3,9 @@ from django.urls import path
 from .views import (
     QuestionListCreateView,
     GenerateTestView,
-    SubmitTestView
+    SubmitTestView,
+    ResultListView,
+    ResultDetailView
 )
 
 urlpatterns = [
@@ -24,6 +26,18 @@ urlpatterns = [
         'submit/',
         SubmitTestView.as_view(),
         name='submit-test'
+    ),
+
+    path(
+        'results/',
+        ResultListView.as_view(),
+        name='results'
+    ),
+
+    path(
+        'result/<int:result_id>/',
+        ResultDetailView.as_view(),
+        name='result-detail'
     ),
 
 ]
