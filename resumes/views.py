@@ -22,13 +22,13 @@ class ResumeUploadView(generics.CreateAPIView):
         # Attach logged-in user
         resume = serializer.save(user=request.user)
 
-        # Extract text
+        # Extract text from uploaded PDF
         text = extract_text_from_pdf(resume.resume.path)
 
         # Extract skills
         skills = extract_skills(text)
 
-        # Save skills properly (IMPORTANT FIX)
+        # Save skills
         for skill_name in skills:
 
             skill_obj, created = Skill.objects.get_or_create(
@@ -39,8 +39,10 @@ class ResumeUploadView(generics.CreateAPIView):
                 resume=resume,
                 skill=skill_obj
             )
-            return Response({
-    "message": "Resume uploaded successfully",
-    "resume_id": resume.id,
-    "skills": skills
-})
+
+        # Return response AFTER all skills are saved
+        return Response({
+            "message": "Resume uploaded successfully",
+            "resume_id": resume.id,
+            "skills": skills
+        })
