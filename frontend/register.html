@@ -28,23 +28,47 @@
 
     <div class="container">
 
-        <!-- Left Side -->
+        <!-- Left Section -->
 
         <div class="left-section">
+
+            <div class="logo">
+
+                <i class="bi bi-braces-asterisk"></i>
+
+            </div>
 
             <h1>AptiResume AI</h1>
 
             <p>
+
                 Create your account and start preparing smarter with
                 AI-powered resume analysis and personalized aptitude tests.
+
             </p>
 
-            <img src="https://undraw.co/api/illustrations/secure-login.svg"
-                alt="Register Illustration">
+            <ul class="features-list">
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    AI Resume Analysis
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Personalized Aptitude Tests
+                </li>
+
+                <li>
+                    <i class="bi bi-check-circle-fill"></i>
+                    Performance Reports
+                </li>
+
+            </ul>
 
         </div>
 
-        <!-- Right Side -->
+        <!-- Right Section -->
 
         <div class="right-section">
 
@@ -62,8 +86,9 @@
 
                         <input
                             type="text"
+                            id="name"
                             placeholder="Full Name"
-                            id="name">
+                            required>
 
                     </div>
 
@@ -73,8 +98,21 @@
 
                         <input
                             type="email"
+                            id="email"
                             placeholder="Email Address"
-                            id="email">
+                            required>
+
+                    </div>
+
+                    <div class="input-box">
+
+                        <i class="bi bi-building"></i>
+
+                        <input
+                            type="text"
+                            id="college"
+                            placeholder="College Name"
+                            required>
 
                     </div>
 
@@ -84,19 +122,9 @@
 
                         <input
                             type="text"
-                            placeholder="College Name"
-                            id="college">
-
-                    </div>
-
-                    <div class="input-box">
-
-                        <i class="bi bi-diagram-3"></i>
-
-                        <input
-                            type="text"
+                            id="branch"
                             placeholder="Branch"
-                            id="branch">
+                            required>
 
                     </div>
 
@@ -104,9 +132,9 @@
 
                         <i class="bi bi-calendar"></i>
 
-                        <select id="year">
+                        <select id="year" required>
 
-                            <option>Select Year</option>
+                            <option value="">Select Year</option>
 
                             <option>1st Year</option>
 
@@ -126,8 +154,9 @@
 
                         <input
                             type="password"
+                            id="password"
                             placeholder="Password"
-                            id="password">
+                            required>
 
                         <i class="bi bi-eye toggle-password"></i>
 
@@ -139,12 +168,15 @@
 
                         <input
                             type="password"
+                            id="confirmPassword"
                             placeholder="Confirm Password"
-                            id="confirmPassword">
+                            required>
+
+                        <i class="bi bi-eye toggle-password"></i>
 
                     </div>
 
-                    <button type="submit">
+                    <button type="submit" class="btn-register">
 
                         Register
 
@@ -170,7 +202,7 @@
 
     </div>
 
-<script src="js/register.js"></script>
+    <script src="js/register.js"></script>
 
 </body>
 
