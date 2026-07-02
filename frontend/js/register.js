@@ -68,3 +68,34 @@ registerForm.addEventListener("submit", function (event) {
     window.location.href = "login.html";
 
 });
+// ===============================
+// Show / Hide Password
+// ===============================
+
+const toggleIcons = document.querySelectorAll(".toggle-password");
+
+toggleIcons.forEach((icon) => {
+
+    icon.addEventListener("click", () => {
+
+        const input = icon.previousElementSibling;
+
+        if (input.type === "password") {
+
+            input.type = "text";
+
+            icon.classList.remove("bi-eye");
+            icon.classList.add("bi-eye-slash");
+
+        } else {
+
+            input.type = "password";
+
+            icon.classList.remove("bi-eye-slash");
+            icon.classList.add("bi-eye");
+
+        }
+
+    });
+
+});

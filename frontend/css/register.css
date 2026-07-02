@@ -333,3 +333,164 @@ body{
 }
 
 }
+/* =========================================
+   INPUT BOX WITH ICON
+========================================= */
+
+.input-box{
+    position: relative;
+}
+
+.input-box i{
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    font-size: 16px;
+}
+
+.input-box input,
+.input-box select{
+    width: 100%;
+    padding-left: 50px;
+}
+/* =========================================
+   INPUT FIELD STYLING
+========================================= */
+
+.input-box{
+
+    margin-bottom:20px;
+
+}
+
+.input-box input,
+.input-box select{
+
+    width:100%;
+    height:55px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    outline:none;
+
+    font-size:16px;
+
+    transition:0.3s;
+
+    background:#ffffff;
+
+}
+/* =========================================
+   INPUT FOCUS EFFECT
+========================================= */
+
+.input-box input:focus,
+.input-box select:focus{
+
+    border-color:#2563eb;
+
+    box-shadow:0 0 0 4px rgba(37,99,235,0.15);
+
+}
+/* =========================================
+   REGISTER BUTTON
+========================================= */
+
+.btn-register{
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    color:#ffffff;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    margin-top:10px;
+
+}
+.btn-register:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,0.35);
+
+}
+/* =========================================
+   BOTTOM TEXT
+========================================= */
+
+.bottom-text{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    font-size:15px;
+
+    color:#6b7280;
+
+}
+
+.bottom-text a{
+
+    color:#2563eb;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:0.3s;
+
+}
+
+.bottom-text a:hover{
+
+    color:#4f46e5;
+
+    text-decoration:underline;
+
+}
+/* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+.toggle-password{
+
+    right:18px !important;
+
+    left:auto !important;
+
+    cursor:pointer;
+
+    color:#6b7280;
+
+}
+
+.toggle-password:hover{
+
+    color:#2563eb;
+
+}
+
+.input-box input{
+
+    padding-right:50px;
+
+}
