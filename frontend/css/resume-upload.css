@@ -1,0 +1,174 @@
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+/* =========================================
+   UPLOAD CONTAINER
+========================================= */
+
+.upload-container{
+
+    width:100%;
+
+    max-width:900px;
+
+}
+
+.upload-box{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:60px 50px;
+
+    text-align:center;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+}
+
+/* =========================================
+   ICON
+========================================= */
+
+.upload-icon{
+
+    font-size:70px;
+
+    color:#2563eb;
+
+    margin-bottom:20px;
+
+}
+
+/* =========================================
+   TEXT
+========================================= */
+
+.upload-box h1{
+
+    font-size:34px;
+
+    margin-bottom:15px;
+
+    color:#111827;
+
+}
+
+.upload-box p{
+
+    color:#6b7280;
+
+    line-height:1.8;
+
+    margin-bottom:30px;
+
+}
+/* =========================================
+   BUTTON
+========================================= */
+
+#chooseFileBtn{
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:15px 35px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#chooseFileBtn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.35);
+
+}
+
+/* =========================================
+   FILE NAME
+========================================= */
+
+#fileName{
+
+    margin-top:25px;
+
+    font-weight:500;
+
+    color:#374151;
+
+}
+/* =========================================
+   ANALYZE BUTTON
+========================================= */
+
+#analyzeBtn{
+
+    display:none;
+
+    margin:25px auto 0;
+
+    background:#10b981;
+
+    color:white;
+
+    border:none;
+
+    border-radius:10px;
+
+    padding:15px 35px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#analyzeBtn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(16,185,129,.35);
+
+}
