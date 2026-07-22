@@ -1,8 +1,10 @@
-from .models import Question
 import random
 
+from .models import Question
+from .ai.question_generator import generate_ai_questions
 
-def generate_test(skills):
+
+def generate_database_questions(skills):
 
     selected_questions = []
 
@@ -20,16 +22,26 @@ def generate_test(skills):
             questions[:5]
         )
 
-    aptitude_questions = list(
-        Question.objects.filter(
-            category="aptitude"
-        )
+    aptitude = list(
+        Question.objects.filter(category="aptitude")
     )
 
-    random.shuffle(aptitude_questions)
+    random.shuffle(aptitude)
 
     selected_questions.extend(
-        aptitude_questions[:10]
+        aptitude[:10]
     )
 
     return selected_questions
+
+
+def generate_test(skills):
+
+    try:
+        return generate_ai_questions(skills)
+
+    except Exception as e:
+
+        print("Gemini Error:", e)
+
+        return generate_database_questions(skills)

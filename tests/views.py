@@ -26,6 +26,9 @@ class QuestionListCreateView(generics.ListCreateAPIView):
 # -----------------------------
 # GENERATE TEST (USER SIDE)
 # -----------------------------
+# -----------------------------
+# GENERATE TEST (USER SIDE)
+# -----------------------------
 class GenerateTestView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -34,7 +37,7 @@ class GenerateTestView(APIView):
         skills = ResumeSkill.objects.filter(resume_id=resume_id)
 
         skill_names = [
-            skill.skill.name   # 🔥 FIXED (ForeignKey now)
+            skill.skill.name
             for skill in skills
         ]
 
@@ -43,19 +46,34 @@ class GenerateTestView(APIView):
         data = []
 
         for q in questions:
-            data.append({
-                "id": q.id,
-                "question": q.question_text,
-                "option1": q.option1,
-                "option2": q.option2,
-                "option3": q.option3,
-                "option4": q.option4,
-                "category": q.category
-            })
+
+            # AI-generated questions
+            if isinstance(q, dict):
+                data.append({
+                    "id": None,
+                    "question": q["question"],
+                    "option1": q["option1"],
+                    "option2": q["option2"],
+                    "option3": q["option3"],
+                    "option4": q["option4"],
+                    "correct_answer": q["correct_answer"],
+                    "category": q["category"],
+                })
+
+            # Database questions
+            else:
+                data.append({
+                    "id": q.id,
+                    "question": q.question_text,
+                    "option1": q.option1,
+                    "option2": q.option2,
+                    "option3": q.option3,
+                    "option4": q.option4,
+                    "correct_answer": q.correct_answer,
+                    "category": q.category,
+                })
 
         return Response(data)
-
-
 # -----------------------------
 # SUBMIT TEST (CORE LOGIC)
 # -----------------------------

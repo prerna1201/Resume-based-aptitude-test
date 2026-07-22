@@ -1,0 +1,419 @@
+openapi: 3.0.3
+info:
+  title: Resume Based Aptitude Test API
+  version: 1.0.0
+  description: API documentation for Resume Based Aptitude Test Platform
+paths:
+  /api/resumes/upload/:
+    post:
+      operationId: api_resumes_upload_create
+      tags:
+      - api
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Resume'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Resume'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Resume'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/tests/generate/{resume_id}/:
+    get:
+      operationId: api_tests_generate_retrieve
+      parameters:
+      - in: path
+        name: resume_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/tests/questions/:
+    get:
+      operationId: api_tests_questions_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Question'
+          description: ''
+    post:
+      operationId: api_tests_questions_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Question'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Question'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Question'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+          description: ''
+  /api/tests/result/{result_id}/:
+    get:
+      operationId: api_tests_result_retrieve
+      parameters:
+      - in: path
+        name: result_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/tests/results/:
+    get:
+      operationId: api_tests_results_list
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Result'
+          description: ''
+  /api/tests/submit/:
+    post:
+      operationId: api_tests_submit_create
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/users/login/:
+    post:
+      operationId: api_users_login_create
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/users/register/:
+    post:
+      operationId: api_users_register_create
+      tags:
+      - api
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    CategoryEnum:
+      enum:
+      - python
+      - java
+      - c
+      - c++
+      - sql
+      - html
+      - css
+      - javascript
+      - react
+      - django
+      - aptitude
+      type: string
+      description: |-
+        * `python` - Python
+        * `java` - Java
+        * `c` - C
+        * `c++` - C++
+        * `sql` - SQL
+        * `html` - HTML
+        * `css` - CSS
+        * `javascript` - JavaScript
+        * `react` - React
+        * `django` - Django
+        * `aptitude` - Aptitude
+    DifficultyEnum:
+      enum:
+      - easy
+      - medium
+      - hard
+      type: string
+      description: |-
+        * `easy` - Easy
+        * `medium` - Medium
+        * `hard` - Hard
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        question_text:
+          type: string
+        option1:
+          type: string
+          maxLength: 255
+        option2:
+          type: string
+          maxLength: 255
+        option3:
+          type: string
+          maxLength: 255
+        option4:
+          type: string
+          maxLength: 255
+        correct_answer:
+          type: string
+          maxLength: 255
+        category:
+          $ref: '#/components/schemas/CategoryEnum'
+        difficulty:
+          $ref: '#/components/schemas/DifficultyEnum'
+      required:
+      - category
+      - correct_answer
+      - id
+      - option1
+      - option2
+      - option3
+      - option4
+      - question_text
+    Result:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        score:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        total_questions:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        submitted_at:
+          type: string
+          format: date-time
+          readOnly: true
+        test:
+          type: integer
+          nullable: true
+      required:
+      - id
+      - score
+      - submitted_at
+    Resume:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        resume:
+          type: string
+          format: uri
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - id
+      - resume
+      - uploaded_at
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
