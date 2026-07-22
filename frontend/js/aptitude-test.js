@@ -1,259 +1,462 @@
-// =========================================
-// Aptitude Test
-// =========================================
+/* =========================================================
+   AptiResume AI
+   Professional Assessment Portal
+========================================================= */
 
-// Get Logged-in User
 
-const user = JSON.parse(localStorage.getItem("user"));
-
-const userName = document.getElementById("userName");
-
-if(user){
-
-    userName.textContent = `Welcome, ${user.name}`;
-
-}else{
-
-    window.location.href = "login.html";
-
-}
-
-// =========================================
-// Questions
-// =========================================
+/* =========================================================
+   SAMPLE QUESTIONS
+   (Later these will come from Django + Gemini)
+========================================================= */
 
 const questions = [
 
     {
-        question:"Which HTML tag is used to create a hyperlink?",
-        options:["<link>","<a>","<href>","<url>"],
-        answer:1
-    },
 
-    {
-        question:"Which CSS property changes text color?",
-        options:["font-color","color","text-color","background"],
-        answer:1
-    },
+        question: "Which HTML tag is used to create a hyperlink?",
 
-    {
-        question:"Which keyword declares a variable in JavaScript?",
-        options:["int","variable","let","define"],
-        answer:2
-    },
+        options: [
 
-    {
-        question:"Which company developed React?",
-        options:["Google","Meta","Microsoft","Amazon"],
-        answer:1
-    },
+            "<a>",
 
-    {
-        question:"Which HTML tag inserts an image?",
-        options:["<picture>","<img>","<image>","<src>"],
-        answer:1
-    },
+            "<link>",
 
-    {
-        question:"Which symbol is used for comments in JavaScript?",
-        options:["//","#","<!-- -->","**"],
-        answer:0
-    },
+            "<url>",
 
-    {
-        question:"Which CSS property makes text bold?",
-        options:["font-style","font-weight","text-bold","bold"],
-        answer:1
-    },
+            "<href>"
 
-    {
-        question:"What does CSS stand for?",
-        options:[
-            "Computer Style Sheets",
-            "Cascading Style Sheets",
-            "Creative Style Sheets",
-            "Colorful Style Sheets"
         ],
-        answer:1
+
+        answer: 0,
+
+        topic: "HTML"
+
     },
 
     {
-        question:"Which HTML tag creates a line break?",
-        options:["<break>","<lb>","<br>","<newline>"],
-        answer:2
-    },
 
-    {
-        question:"Which method prints data in the browser console?",
-        options:[
-            "console.log()",
-            "print()",
-            "echo()",
-            "document.write()"
+        question: "Which CSS property changes text color?",
+
+        options: [
+
+            "font-color",
+
+            "text-color",
+
+            "color",
+
+            "background"
+
         ],
-        answer:0
+
+        answer: 2,
+
+        topic: "CSS"
+
+    },
+
+    {
+
+        question: "Which keyword declares a variable in JavaScript?",
+
+        options: [
+
+            "int",
+
+            "let",
+
+            "define",
+
+            "string"
+
+        ],
+
+        answer: 1,
+
+        topic: "JavaScript"
+
+    },
+
+    {
+
+        question: "Which SQL command retrieves data?",
+
+        options: [
+
+            "INSERT",
+
+            "DELETE",
+
+            "SELECT",
+
+            "UPDATE"
+
+        ],
+
+        answer: 2,
+
+        topic: "SQL"
+
     }
 
 ];
 
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
 let currentQuestion = 0;
-let selectedAnswers = new Array(questions.length).fill(null);
-// =========================================
-// Timer
-// =========================================
 
-let timeLeft = 30 * 60; // 30 minutes
-// =========================================
-// Get Elements
-// =========================================
+let answers = new Array(questions.length).fill(null);
 
-const questionText = document.getElementById("question");
+let review = new Array(questions.length).fill(false);
 
-const optionButtons = document.querySelectorAll(".option");
 
-const questionNumber = document.getElementById("questionNumber");
+/* =========================================================
+   GET HTML ELEMENTS
+========================================================= */
 
-const totalQuestions = document.getElementById("totalQuestions");
+const questionText =
+document.getElementById("questionText");
 
-// =========================================
-// Load Question
-// =========================================
+const optionsContainer =
+document.getElementById("optionsContainer");
 
-function loadQuestion(){
+const questionPalette =
+document.getElementById("questionPalette");
 
-    const current = questions[currentQuestion];
+const progressFill =
+document.getElementById("progressFill");
 
+const answeredCount =
+document.getElementById("answeredCount");
+
+const reviewCount =
+document.getElementById("reviewCount");
+
+const remainingCount =
+document.getElementById("remainingCount");
+
+const questionNumber =
+document.getElementById("questionNumber");
+
+const questionCount =
+document.getElementById("questionCount");
+
+const totalQuestions =
+document.getElementById("totalQuestions");
+
+
+/* =========================================================
+   INITIAL VALUES
+========================================================= */
+
+questionCount.textContent = questions.length;
+
+totalQuestions.textContent = questions.length;
+/* =========================================================
+   DISPLAY QUESTION
+========================================================= */
+
+function displayQuestion() {
+
+    const q = questions[currentQuestion];
+
+    // Question Number
     questionNumber.textContent = currentQuestion + 1;
 
-    totalQuestions.textContent = questions.length;
+    // Question Text
+    questionText.textContent = q.question;
 
-    questionText.textContent = current.question;
-
-    optionButtons.forEach((button,index)=>{
-
-    button.textContent = current.options[index];
-
-    button.classList.remove("selected");
-
-    if(selectedAnswers[currentQuestion] === index){
-
-        button.classList.add("selected");
-
+    // Update Topic (if element exists)
+    const topicElement = document.getElementById("questionTopic");
+    if (topicElement) {
+        topicElement.textContent = q.topic;
     }
 
-});
+    // Clear Previous Options
+    optionsContainer.innerHTML = "";
+
+    // Create Options
+    q.options.forEach((option, index) => {
+
+        const optionDiv = document.createElement("div");
+
+        optionDiv.className = "option";
+
+        optionDiv.textContent = option;
+
+        // Restore Selected Answer
+        if (answers[currentQuestion] === index) {
+            optionDiv.classList.add("active");
+        }
+
+        optionDiv.addEventListener("click", () => {
+
+            // Save Answer
+            answers[currentQuestion] = index;
+
+            // Remove Active Class
+            document.querySelectorAll(".option").forEach(opt => {
+                opt.classList.remove("active");
+            });
+
+            // Highlight Selected
+            optionDiv.classList.add("active");
+
+            // Update UI
+            updatePalette();
+
+            updateProgress();
+
+        });
+
+        optionsContainer.appendChild(optionDiv);
+
+    });
 
 }
+/* =========================================================
+   CREATE QUESTION PALETTE
+========================================================= */
 
-loadQuestion();
-// =========================================
-// Navigation Buttons
-// =========================================
+function createPalette() {
 
-const nextBtn = document.getElementById("nextBtn");
+    questionPalette.innerHTML = "";
 
-const prevBtn = document.getElementById("prevBtn");
+    questions.forEach((q, index) => {
 
-// Next Button
+        const btn = document.createElement("button");
 
-nextBtn.addEventListener("click", () => {
+        btn.className = "palette-btn";
 
-    if(currentQuestion < questions.length - 1){
+        btn.textContent = index + 1;
 
-        currentQuestion++;
+        btn.addEventListener("click", () => {
 
-        loadQuestion();
+            currentQuestion = index;
 
-    }
+            displayQuestion();
 
-});
+            updatePalette();
 
-// Previous Button
+        });
 
-prevBtn.addEventListener("click", () => {
+        questionPalette.appendChild(btn);
+
+    });
+
+}
+/* =========================================================
+   UPDATE QUESTION PALETTE
+========================================================= */
+
+function updatePalette() {
+
+    const buttons = document.querySelectorAll(".palette-btn");
+
+    buttons.forEach((btn, index) => {
+
+        btn.className = "palette-btn";
+
+        if (index === currentQuestion) {
+            btn.classList.add("active");
+        }
+
+        if (answers[index] !== null) {
+            btn.classList.add("answered");
+        }
+
+        if (review[index]) {
+            btn.classList.add("review");
+        }
+
+    });
+
+}
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+createPalette();
+
+displayQuestion();
+
+updatePalette();
+/* =========================================================
+   PREVIOUS BUTTON
+========================================================= */
+
+document.getElementById("prevBtn").addEventListener("click", () => {
 
     if(currentQuestion > 0){
 
         currentQuestion--;
 
-        loadQuestion();
+        displayQuestion();
+
+        updatePalette();
+
+        updateProgress();
 
     }
 
 });
-// =========================================
-// Option Selection
-// =========================================
 
-optionButtons.forEach((button,index)=>{
 
-    button.addEventListener("click",()=>{
+/* =========================================================
+   NEXT BUTTON
+========================================================= */
 
-        selectedAnswers[currentQuestion]=index;
+document.getElementById("nextBtn").addEventListener("click", () => {
 
-        loadQuestion();
+    if(currentQuestion < questions.length - 1){
 
-    });
+        currentQuestion++;
+
+        displayQuestion();
+
+        updatePalette();
+
+        updateProgress();
+
+    }
 
 });
-// =========================================
-// Countdown Timer
-// =========================================
 
-const timer = document.getElementById("time");
 
-function startTimer(){
+/* =========================================================
+   MARK FOR REVIEW
+========================================================= */
 
-    const countdown = setInterval(()=>{
+document.getElementById("reviewBtn").addEventListener("click", () => {
 
-        let minutes = Math.floor(timeLeft / 60);
+    review[currentQuestion] = !review[currentQuestion];
 
-        let seconds = timeLeft % 60;
+    updatePalette();
+
+    updateProgress();
+
+});
+/* =========================================================
+   UPDATE PROGRESS
+========================================================= */
+
+function updateProgress(){
+
+    const answered = answers.filter(a => a !== null).length;
+
+    const reviewQuestions = review.filter(r => r).length;
+
+    const remaining = questions.length - answered;
+
+    answeredCount.textContent = answered;
+
+    reviewCount.textContent = reviewQuestions;
+
+    remainingCount.textContent = remaining;
+
+    progressFill.style.width =
+        ((answered / questions.length) * 100) + "%";
+
+}
+/* =========================================================
+   INITIAL PROGRESS
+========================================================= */
+
+updateProgress();
+/* =========================================================
+   TIMER
+========================================================= */
+
+let totalTime = 30 * 60; // 30 Minutes
+
+const timer = document.getElementById("timer");
+
+function startTimer() {
+
+    const interval = setInterval(() => {
+
+        const minutes = Math.floor(totalTime / 60);
+
+        const seconds = totalTime % 60;
 
         timer.textContent =
-            `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+            `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-        if(timeLeft <= 0){
+        totalTime--;
 
-            clearInterval(countdown);
+        if (totalTime < 0) {
 
-            alert("Time is over! Test submitted automatically.");
+            clearInterval(interval);
+
+            alert("Time's Up! Your assessment will be submitted.");
+
+            submitAssessment();
 
         }
 
-        timeLeft--;
-
-    },1000);
+    }, 1000);
 
 }
 
 startTimer();
-// =========================================
-// Submit Test
-// =========================================
+/* =========================================================
+   SUBMIT MODAL
+========================================================= */
 
 const submitBtn = document.getElementById("submitBtn");
 
+const submitModal = document.getElementById("submitModal");
+
+const cancelSubmit = document.getElementById("cancelSubmit");
+
+const confirmSubmit = document.getElementById("confirmSubmit");
+
 submitBtn.addEventListener("click", () => {
 
-    let score = 0;
-
-    questions.forEach((question, index) => {
-
-        if(selectedAnswers[index] === question.answer){
-
-            score++;
-
-        }
-
-    });
-
-    // Save Result
-
-    localStorage.setItem("score", score);
-
-    localStorage.setItem("totalQuestions", questions.length);
-
-    window.location.href = "results.html";
+    submitModal.style.display = "flex";
 
 });
+
+cancelSubmit.addEventListener("click", () => {
+
+    submitModal.style.display = "none";
+
+});
+/* =========================================================
+   SUBMIT ASSESSMENT
+========================================================= */
+
+function submitAssessment() {
+
+    localStorage.setItem(
+
+        "assessmentAnswers",
+
+        JSON.stringify(answers)
+
+    );
+
+    localStorage.setItem(
+
+        "assessmentReview",
+
+        JSON.stringify(review)
+
+    );
+
+    localStorage.setItem(
+
+        "assessmentScore",
+
+        answers.filter((ans, index) => ans === questions[index].answer).length
+
+    );
+
+    window.location.href = "result.html";
+
+}
+
+confirmSubmit.addEventListener("click", submitAssessment);
