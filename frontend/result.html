@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AptiResume AI - Results</title>
+
+<link rel="stylesheet" href="css/result.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <div>
+
+            <h1>AptiResume AI</h1>
+
+            <p>AI Powered Resume Assessment Dashboard</p>
+
+        </div>
+
+        <button class="dashboard-btn">
+
+            Back to Dashboard
+
+        </button>
+
+    </header>
+
+
+    <!-- SCORE SECTION -->
+
+    <section class="hero">
+
+        <div class="score-card">
+
+            <div class="score-circle">
+
+                <svg>
+
+                    <circle cx="90" cy="90" r="75"></circle>
+
+                    <circle id="progressCircle"
+
+                        cx="90"
+
+                        cy="90"
+
+                        r="75">
+
+                    </circle>
+
+                </svg>
+
+                <div class="score-text">
+
+                    <h2 id="scoreValue">87%</h2>
+
+                    <span>Overall Score</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="hero-text">
+
+            <h2>Excellent Performance 🎉</h2>
+
+            <p>
+
+                Your assessment has been completed successfully.
+
+            </p>
+
+            <div class="badge">
+
+                Resume Skills Successfully Validated
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <h3 id="correctAnswers">13</h3>
+
+            <p>Correct</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3 id="wrongAnswers">2</h3>
+
+            <p>Wrong</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3 id="accuracy">87%</h3>
+
+            <p>Accuracy</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h3 id="timeTaken">24 min</h3>
+
+            <p>Time Taken</p>
+
+        </div>
+
+    </section>
+
+
+    <!-- PERFORMANCE BAR -->
+
+    <section class="performance">
+
+        <h2>Performance Overview</h2>
+
+        <div class="performance-bar">
+
+            <div class="performance-fill"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHART PLACEHOLDERS -->
+
+    <section class="charts">
+
+        <div class="chart-card">
+
+            <h3>Question Analysis</h3>
+
+            <canvas id="questionChart"></canvas>
+
+        </div>
+
+        <div class="chart-card">
+
+            <h3>Topic Performance</h3>
+
+            <canvas id="topicChart"></canvas>
+
+        </div>
+
+    </section>
+
+
+    <!-- AI FEEDBACK -->
+
+    <section class="feedback">
+
+        <h2>🤖 AI Feedback</h2>
+
+        <div class="feedback-card">
+
+            <p id="aiFeedback">
+
+                AI feedback will appear here.
+
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ACTIONS -->
+
+    <section class="actions">
+
+        <button id="retakeBtn">
+
+            Retake Test
+
+        </button>
+
+        <button id="downloadBtn">
+
+            Download Report
+
+        </button>
+
+        <button id="homeBtn">
+
+            Dashboard
+
+        </button>
+
+    </section>
+
+</div>
+
+<script src="js/result.js"></script>
+
+</body>
+
+</html>
