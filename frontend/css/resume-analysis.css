@@ -1,0 +1,192 @@
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    min-height:100vh;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px;
+
+}
+
+/* =========================================
+   ANALYSIS CONTAINER
+========================================= */
+
+.analysis-container{
+
+    width:100%;
+
+    max-width:1000px;
+
+}
+
+.analysis-box{
+
+    background:#ffffff;
+
+    border-radius:20px;
+
+    padding:50px;
+
+    box-shadow:0 15px 40px rgba(0,0,0,.15);
+
+}
+
+/* =========================================
+   HEADINGS
+========================================= */
+
+.analysis-box h1{
+
+    font-size:36px;
+
+    color:#111827;
+
+    margin-bottom:20px;
+
+}
+
+.analysis-box h2{
+
+    margin-top:35px;
+
+    margin-bottom:20px;
+
+    color:#111827;
+
+}
+/* =========================================
+   STATUS
+========================================= */
+
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+    margin-bottom:30px;
+
+}
+
+/* =========================================
+   SKILLS
+========================================= */
+
+.skills-container{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+.skill{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+    padding:12px 20px;
+
+    border-radius:30px;
+
+    font-weight:600;
+
+}
+/* =========================================
+   RECOMMENDATION
+========================================= */
+
+.recommendation{
+
+    margin-top:40px;
+
+    padding:25px;
+
+    background:#f8fafc;
+
+    border-radius:15px;
+
+}
+
+.recommendation p{
+
+    margin-top:10px;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    color:#2563eb;
+
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+#generateTestBtn{
+
+    margin-top:40px;
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+#generateTestBtn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.35);
+
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Upload Resume | AptiResume AI</title>
+
+    <!-- Google Font -->
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet"
+          href="css/resume-upload.css">
+
+</head>
+
+<body>
+
+    <div class="upload-container">
+
+        <div class="upload-box">
+
+            <i class="bi bi-cloud-arrow-up upload-icon"></i>
+
+            <h1>Upload Your Resume</h1>
+
+            <p>
+
+                Upload your resume in PDF or DOCX format.
+                AI will analyze your skills and generate
+                personalized aptitude questions.
+
+            </p>
+
+            <input
+                type="file"
+                id="resumeFile"
+                accept=".pdf,.doc,.docx"
+                hidden>
+
+            <button id="chooseFileBtn">
+
+                Choose Resume
+
+            </button>
+
+            <p id="fileName">
+
+                No file selected
+
+            </p>
+            <button id="analyzeBtn">
+
+    Analyze Resume
+
+</button>
+
+        </div>
+
+    </div>
+
+    <script src="js/resume-upload.js"></script>
+
+</body>
+
+</html>
