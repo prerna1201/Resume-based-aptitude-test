@@ -1,0 +1,90 @@
+/* ==========================================
+   GOOGLE FONT
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================
+   ROOT VARIABLES
+========================================== */
+
+:root {
+
+    /* Brand Colors */
+
+    --primary-color: #2563EB;
+    --primary-dark: #1D4ED8;
+
+    --secondary-color: #10B981;
+
+    --accent-color: #F59E0B;
+
+    /* Background */
+
+    --background-color: #FFFFFF;
+
+    --section-bg: #F8FAFC;
+
+    /* Text */
+
+    --text-dark: #1E293B;
+
+    --text-light: #64748B;
+
+    /* Border */
+
+    --border-color: #E2E8F0;
+
+    /* Shadow */
+
+    --shadow-sm: 0px 4px 12px rgba(0,0,0,0.05);
+
+    --shadow-md: 0px 10px 30px rgba(0,0,0,0.08);
+
+    --shadow-lg: 0px 20px 40px rgba(0,0,0,0.12);
+
+    /* Radius */
+
+    --radius-sm: 8px;
+
+    --radius-md: 15px;
+
+    --radius-lg: 25px;
+
+    /* Transition */
+
+    --transition: all 0.3s ease;
+
+}
+
+/* ==========================================
+   RESET
+========================================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:var(--background-color);
+
+    color:var(--text-dark);
+
+    overflow-x:hidden;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}

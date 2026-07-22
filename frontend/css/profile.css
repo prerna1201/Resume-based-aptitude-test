@@ -1,0 +1,248 @@
+/* =========================================
+   RESET
+========================================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+
+    min-height:100vh;
+
+}
+
+/* =========================================
+   PROFILE LAYOUT
+========================================= */
+
+.profile-container{
+
+    width:90%;
+
+    max-width:1300px;
+
+    margin:40px auto;
+
+    display:grid;
+
+    grid-template-columns:320px 1fr;
+
+    gap:30px;
+
+}
+
+/* =========================================
+   LEFT CARD
+========================================= */
+
+.profile-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+}
+
+.profile-card img{
+
+    width:180px;
+
+    height:180px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:5px solid #2563eb;
+
+}
+
+.profile-card h2{
+
+    margin-top:20px;
+
+    color:#111827;
+
+}
+
+.profile-card p{
+
+    color:#6b7280;
+
+    margin:10px 0 25px;
+
+}
+
+.profile-card button{
+
+    border:none;
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.profile-card button:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* =========================================
+   RIGHT CARD
+========================================= */
+
+.details-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:40px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+
+}
+
+.details-card h3{
+
+    color:#2563eb;
+
+    margin-bottom:20px;
+
+}
+
+.details-card label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    margin-top:15px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+.details-card input{
+
+    width:100%;
+
+    padding:12px 15px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:10px;
+
+    outline:none;
+
+    transition:.3s;
+
+}
+
+.details-card input:focus{
+
+    border-color:#2563eb;
+
+}
+
+.details-card hr{
+
+    margin:30px 0;
+
+}
+
+.details-card ul{
+
+    list-style:none;
+
+    padding-left:0;
+
+}
+
+.details-card ul li{
+
+    padding:10px 0;
+
+    border-bottom:1px solid #eee;
+
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.btn{
+
+    border-radius:10px !important;
+
+    padding:10px 22px !important;
+
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar-brand{
+
+    font-size:28px;
+
+}
+
+.nav-link{
+
+    font-weight:500;
+
+    margin:0 8px;
+
+}
+
+.nav-link.active{
+
+    color:#2563eb !important;
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media(max-width:992px){
+
+.profile-container{
+
+grid-template-columns:1fr;
+
+}
+
+.profile-card{
+
+margin-bottom:20px;
+
+}
+
+}
