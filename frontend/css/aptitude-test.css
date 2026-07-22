@@ -1,109 +1,683 @@
-/* =========================================
-   RESET
-========================================= */
+/* ==========================================
+   AptiResume AI - Aptitude Test
+   Professional UI
+========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
 }
 
 body{
+    font-family:'Poppins',sans-serif;
+    background:#f4f7fc;
+    color:#1e293b;
+}
 
-    background:linear-gradient(135deg,#2563eb,#4f46e5);
+/* ================= HEADER ================= */
 
-    min-height:100vh;
+.test-header{
+    height:80px;
+    background:#2563eb;
+    color:white;
 
     display:flex;
-
-    justify-content:center;
-
+    justify-content:space-between;
     align-items:center;
 
-    padding:40px;
+    padding:0 45px;
 
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
-/* =========================================
-   TEST CONTAINER
-========================================= */
-
-.test-container{
-
-    width:100%;
-    max-width:900px;
-
+.logo h1{
+    font-size:32px;
+    font-weight:700;
 }
 
-.test-box{
+.logo p{
+    font-size:14px;
+    opacity:.9;
+    margin-top:2px;
+}
 
-    background:#ffffff;
+.timer-container{
+    background:white;
+    color:#2563eb;
+
+    padding:12px 28px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    min-width:170px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+
+.timer-container span{
+    font-size:13px;
+    font-weight:500;
+}
+
+.timer-container h2{
+    margin-top:4px;
+    font-size:28px;
+}
+
+/* ================= Candidate Card ================= */
+
+.candidate-card{
+
+    width:95%;
+
+    margin:25px auto;
+
+    background:white;
 
     border-radius:20px;
 
-    padding:50px;
+    padding:25px 30px;
 
-    box-shadow:0 15px 40px rgba(0,0,0,.15);
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
 
 }
 
-.test-box h1{
+.candidate-left{
 
-    color:#111827;
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.profile-circle{
+
+    width:75px;
+
+    height:75px;
+
+    background:#2563eb;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    color:white;
+
+    font-size:34px;
+
+    font-weight:bold;
+
+}
+
+.candidate-left h2{
+
+    font-size:28px;
+
+    margin-bottom:5px;
+
+}
+
+.candidate-left p{
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+.candidate-right{
+
+    display:flex;
+
+    gap:20px;
+
+}
+
+.info-box{
+
+    background:#f8fbff;
+
+    border:2px solid #e0ebff;
+
+    border-radius:15px;
+
+    padding:18px;
+
+    min-width:170px;
+
+    transition:.3s;
+
+}
+
+.info-box:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 20px rgba(37,99,235,.10);
+
+}
+
+.info-box h4{
+
+    color:#2563eb;
 
     margin-bottom:10px;
 
-}
-
-#userName{
-
-    color:#6b7280;
-
-    margin-bottom:30px;
+    font-size:15px;
 
 }
 
-.timer{
+.info-box span{
+
+    font-weight:600;
+
+    color:#334155;
+
+}
+
+/* ================= Main Layout ================= */
+
+.assessment-container{
+
+    width:95%;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:3fr 1fr;
+
+    gap:25px;
+
+    padding-bottom:40px;
+
+}
+
+/* ================= Left Panel ================= */
+
+.left-panel{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.question-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.question-top h3{
+
+    font-size:28px;
+
+}
+
+.progress-section{
+
+    margin:25px 0;
+
+}
+
+.progress-bar{
+
+    width:100%;
+
+    height:12px;
+
+    background:#dbeafe;
+
+    border-radius:30px;
+
+    overflow:hidden;
+
+}
+
+#progressFill{
+
+    width:10%;
+
+    height:100%;
+
+    background:#2563eb;
+
+    border-radius:30px;
+
+    transition:.4s;
+
+}
+
+/* ================= AI Badge ================= */
+
+.ai-badge{
+
+    display:inline-block;
+
+    background:#eaf2ff;
+
+    color:#2563eb;
+
+    padding:10px 18px;
+
+    border-radius:25px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    margin-bottom:25px;
+
+}
+
+/* ==========================================
+   QUESTION CARD
+========================================== */
+
+.question-card{
+
+    background:#fafcff;
+
+    border-left:7px solid #2563eb;
+
+    border-radius:18px;
+
+    padding:35px;
+
+    margin-bottom:35px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.05);
+
+    transition:.3s;
+
+}
+
+.question-card:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.question-card h2{
+
+    font-size:30px;
+
+    line-height:1.6;
+
+    font-weight:700;
+
+    color:#1e293b;
+
+}
+
+
+/* ==========================================
+   OPTIONS
+========================================== */
+
+.options{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:18px;
+
+}
+
+
+/* Each Option */
+
+.option{
+
+    width:100%;
+
+    background:white;
+
+    border:2px solid #dbeafe;
+
+    border-radius:16px;
+
+    padding:18px 24px;
+
+    cursor:pointer;
+
+    font-size:18px;
+
+    font-weight:500;
+
+    color:#334155;
+
+    transition:.3s;
+
+    position:relative;
+
+}
+
+
+/* Circle */
+
+.option::before{
+
+    content:"○";
+
+    color:#2563eb;
+
+    margin-right:15px;
+
+    font-size:20px;
+
+}
+
+
+/* Hover */
+
+.option:hover{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-color:#2563eb;
+
+    transform:translateX(8px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.20);
+
+}
+
+.option:hover::before{
+
+    color:white;
+
+}
+
+
+/* Selected */
+
+.option.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-color:#2563eb;
+
+    box-shadow:0 12px 25px rgba(37,99,235,.30);
+
+}
+
+.option.active::before{
+
+    content:"●";
+
+    color:white;
+
+}
+
+
+/* ==========================================
+   NAVIGATION
+========================================== */
+
+.navigation{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:18px;
+
+    margin-top:40px;
+
+}
+
+
+/* Common Button */
+
+.navigation button{
+
+    flex:1;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+/* Previous */
+
+#prevBtn{
+
+    background:#64748b;
+
+    color:white;
+
+}
+
+
+/* Review */
+
+#reviewBtn{
+
+    background:#f59e0b;
+
+    color:white;
+
+}
+
+
+/* Next */
+
+#nextBtn{
+
+    background:#2563eb;
+
+    color:white;
+
+}
+
+
+/* Hover */
+
+.navigation button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.15);
+
+}
+
+
+/* Disabled */
+
+.navigation button:disabled{
+
+    opacity:.5;
+
+    cursor:not-allowed;
+
+    transform:none;
+
+    box-shadow:none;
+
+}
+/* ==========================================
+   RIGHT PANEL
+========================================== */
+
+.right-panel{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+    position:sticky;
+
+    top:20px;
+
+    height:fit-content;
+
+}
+
+
+/* ==========================================
+   SIDEBAR CARD
+========================================== */
+
+.sidebar-card{
+
+    background:white;
+
+    border-radius:20px;
+
+    padding:25px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+}
+
+.sidebar-card h3{
+
+    color:#2563eb;
+
+    font-size:22px;
+
+    margin-bottom:20px;
+
+}
+
+
+/* ==========================================
+   QUESTION PALETTE
+========================================== */
+
+#questionPalette{
+
+    display:grid;
+
+    grid-template-columns:repeat(5,1fr);
+
+    gap:12px;
+
+}
+
+
+/* Question Number Button */
+
+.palette-btn{
+
+    width:50px;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:50%;
 
     background:#dbeafe;
 
     color:#2563eb;
 
-    display:inline-block;
+    font-weight:700;
 
-    padding:10px 20px;
+    font-size:16px;
 
-    border-radius:30px;
+    cursor:pointer;
 
-    font-weight:600;
-
-    margin-bottom:25px;
+    transition:.3s;
 
 }
 
-.progress{
+.palette-btn:hover{
 
-    margin-bottom:25px;
+    background:#2563eb;
 
-    font-weight:600;
+    color:white;
 
-    color:#374151;
+    transform:scale(1.08);
+
+}
+
+
+/* Current */
+
+.palette-btn.active{
+
+    background:#2563eb;
+
+    color:white;
 
 }
 
-#question{
 
-    margin-bottom:30px;
+/* Answered */
 
-    color:#111827;
+.palette-btn.answered{
+
+    background:#22c55e;
+
+    color:white;
 
 }
-/* =========================================
-   OPTIONS
-========================================= */
 
-.options{
+
+/* Review */
+
+.palette-btn.review{
+
+    background:#f59e0b;
+
+    color:white;
+
+}
+
+
+/* ==========================================
+   PROGRESS SUMMARY
+========================================== */
+
+.progress-summary{
 
     display:flex;
 
@@ -113,98 +687,483 @@ body{
 
 }
 
-.option{
-
-    border:2px solid #d1d5db;
-
-    background:#ffffff;
-
-    border-radius:10px;
-
-    padding:15px;
-
-    text-align:left;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    font-size:16px;
-
-}
-
-.option:hover{
-
-    background:#dbeafe;
-
-    border-color:#2563eb;
-
-}
-.option.selected{
-
-    background:#2563eb;
-
-    color:white;
-
-    border-color:#2563eb;
-
-}
-
-/* =========================================
-   NAVIGATION
-========================================= */
-
-.navigation{
+.summary-item{
 
     display:flex;
 
     justify-content:space-between;
 
-    margin-top:40px;
+    align-items:center;
+
+    font-size:16px;
+
+    padding-bottom:10px;
+
+    border-bottom:1px solid #edf2f7;
 
 }
 
-.navigation button{
+.summary-item:last-child{
 
-    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    border:none;
+
+}
+
+.summary-item span:last-child{
+
+    font-weight:700;
+
+    color:#2563eb;
+
+}
+
+
+/* ==========================================
+   LEGEND
+========================================== */
+
+.legend{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+.legend-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:15px;
+
+}
+
+.legend-color{
+
+    width:18px;
+
+    height:18px;
+
+    border-radius:50%;
+
+}
+
+.legend-color.answered{
+
+    background:#22c55e;
+
+}
+
+.legend-color.review{
+
+    background:#f59e0b;
+
+}
+
+.legend-color.current{
+
+    background:#2563eb;
+
+}
+
+.legend-color.unanswered{
+
+    background:#dbeafe;
+
+}
+
+
+/* ==========================================
+   SUBMIT BUTTON
+========================================== */
+
+#submitBtn{
+
+    width:100%;
+
+    background:#22c55e;
 
     color:white;
 
     border:none;
 
-    border-radius:10px;
+    border-radius:16px;
 
-    padding:14px 30px;
+    padding:18px;
+
+    font-size:18px;
+
+    font-weight:700;
 
     cursor:pointer;
 
-    font-size:16px;
-
-    font-weight:600;
-
     transition:.3s;
 
-}
-
-.navigation button:hover{
-
-    transform:translateY(-3px);
-
-    box-shadow:0 12px 25px rgba(37,99,235,.35);
-
-}
-/* =========================================
-   SUBMIT BUTTON
-========================================= */
-
-#submitBtn{
-
-    background:#10b981;
+    box-shadow:0 12px 25px rgba(34,197,94,.25);
 
 }
 
 #submitBtn:hover{
 
-    box-shadow:0 12px 25px rgba(16,185,129,.35);
+    background:#16a34a;
+
+    transform:translateY(-3px);
+
+}
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.45);
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:1000;
+
+}
+
+.modal-content{
+
+    background:white;
+
+    width:420px;
+
+    border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.20);
+
+}
+
+.modal-content h2{
+
+    margin-bottom:15px;
+
+}
+
+.modal-content p{
+
+    color:#64748b;
+
+    margin-bottom:30px;
+
+}
+
+.modal-buttons{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+.modal-buttons button{
+
+    flex:1;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+#cancelSubmit{
+
+    background:#64748b;
+
+    color:white;
+
+}
+
+#confirmSubmit{
+
+    background:#22c55e;
+
+    color:white;
+
+}
+/* ==========================================
+   SMOOTH ANIMATIONS
+========================================== */
+
+*{
+    scroll-behavior:smooth;
+}
+
+button,
+.option,
+.palette-btn,
+.info-box,
+.question-card,
+.sidebar-card{
+
+    transition:all .3s ease;
+
+}
+
+
+/* ==========================================
+   CUSTOM SCROLLBAR
+========================================== */
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#eef3fb;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#2563eb;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+/* ==========================================
+   RESPONSIVE - TABLETS
+========================================== */
+
+@media (max-width:1100px){
+
+.test-header{
+
+    padding:20px;
+
+}
+
+.candidate-card{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:25px;
+
+}
+
+.candidate-right{
+
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:15px;
+
+}
+
+.assessment-container{
+
+    grid-template-columns:1fr;
+
+}
+
+.right-panel{
+
+    position:relative;
+
+    top:0;
+
+}
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media (max-width:768px){
+
+.test-header{
+
+    flex-direction:column;
+
+    height:auto;
+
+    padding:20px;
+
+    gap:15px;
+
+}
+
+.logo h1{
+
+    font-size:26px;
+
+}
+
+.timer-container{
+
+    width:100%;
+
+}
+
+.candidate-card{
+
+    padding:20px;
+
+}
+
+.candidate-left{
+
+    flex-direction:column;
+
+    text-align:center;
+
+}
+
+.candidate-right{
+
+    grid-template-columns:1fr;
+
+}
+
+.left-panel{
+
+    padding:20px;
+
+}
+
+.question-card{
+
+    padding:20px;
+
+}
+
+.question-card h2{
+
+    font-size:22px;
+
+}
+
+.option{
+
+    font-size:16px;
+
+}
+
+.navigation{
+
+    flex-direction:column;
+
+}
+
+.navigation button{
+
+    width:100%;
+
+}
+
+#questionPalette{
+
+    grid-template-columns:repeat(5,1fr);
+
+}
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width:500px){
+
+.logo h1{
+
+    font-size:22px;
+
+}
+
+.question-top h3{
+
+    font-size:22px;
+
+}
+
+.profile-circle{
+
+    width:60px;
+
+    height:60px;
+
+    font-size:26px;
+
+}
+
+.timer-container h2{
+
+    font-size:22px;
+
+}
+
+.question-card h2{
+
+    font-size:20px;
+
+}
+
+.option{
+
+    padding:14px;
+
+}
+
+.palette-btn{
+
+    width:42px;
+
+    height:42px;
+
+}
 
 }

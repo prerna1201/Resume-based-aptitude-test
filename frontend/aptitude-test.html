@@ -31,95 +31,396 @@
 
 <body>
 
-    <div class="test-container">
+    <!-- ===========================
+            HEADER
+    ============================ -->
 
-        <div class="test-box">
+    <header class="test-header">
 
-            <h1>Aptitude Test</h1>
+        <div class="logo">
 
-            <p id="userName">
+            <h1>AptiResume AI</h1>
 
-                Welcome
+            <p>AI Personalized Assessment</p>
 
-            </p>
+        </div>
 
-            <div class="timer">
+        <div class="timer-container">
 
-                Time Left:
-                <span id="time">
+            <span>Time Remaining</span>
 
-                    30:00
+            <h2 id="timer">30:00</h2>
 
-                </span>
+        </div>
+
+    </header>
+
+
+
+    <!-- ===========================
+            CANDIDATE INFO
+    ============================ -->
+
+    <section class="candidate-card">
+
+        <div class="candidate-left">
+
+            <div class="profile-circle">
+
+                👤
 
             </div>
 
-            <div class="progress">
+            <div>
 
-                Question
+                <h2 id="candidateName">
 
-                <span id="questionNumber">
+                    Swarnima Mishra
 
-                    1
+                </h2>
 
-                </span>
+                <p>
 
-                of
+                    Resume Based AI Assessment
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="candidate-right">
+
+            <div class="info-box">
+
+                <h4>Questions</h4>
 
                 <span id="totalQuestions">
 
-                    10
+                    15
 
                 </span>
 
             </div>
 
-            <h2 id="question">
+            <div class="info-box">
 
-                Loading Question...
-
-            </h2>
-
-            <div class="options">
-
-                <button class="option">Option 1</button>
-
-                <button class="option">Option 2</button>
-
-                <button class="option">Option 3</button>
-
-                <button class="option">Option 4</button>
+                <h4>Assessment</h4>
+<span id="difficulty">
+    Resume Based AI Test
+</span>
 
             </div>
 
+            <div class="info-box">
+
+                <h4>Resume Skills</h4>
+
+                <span id="skills">
+
+                    HTML • CSS • JavaScript
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ===========================
+            MAIN CONTAINER
+    ============================ -->
+
+    <main class="assessment-container">
+
+
+
+        <!-- ===========================
+                LEFT PANEL
+        ============================ -->
+
+        <section class="left-panel">
+
+
+            <div class="question-top">
+
+                <div>
+
+                    <h3>
+
+                        Question
+
+                        <span id="questionNumber">
+
+                            1
+
+                        </span>
+
+                        /
+
+                        <span id="questionCount">
+
+                            15
+
+                        </span>
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <!-- Progress -->
+
+            <div class="progress-section">
+
+                <div class="progress-bar">
+
+                    <div id="progressFill"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AI Badge -->
+
+            <div class="ai-badge">
+
+                🤖 AI Generated Question
+
+            </div>
+
+
+
+            <!-- Question Card -->
+
+            <div class="question-card">
+
+                <h2 id="questionText">
+
+                    Loading Question...
+
+                </h2>
+
+            </div>
+
+
+
+            <!-- Options -->
+
+            <div id="optionsContainer" class="options">
+
+                <!-- JS will generate options -->
+
+            </div>
+
+
+
+            <!-- Navigation -->
+
             <div class="navigation">
 
-    <button id="prevBtn">
+                <button id="prevBtn">
 
-        Previous
+                    ← Previous
 
-    </button>
+                </button>
 
-    <button id="submitBtn">
+                <button id="reviewBtn">
 
-        Submit Test
+                    Mark Review
 
-    </button>
+                </button>
 
-    <button id="nextBtn">
+                <button id="nextBtn">
 
-        Next
+                    Next →
 
-    </button>
+                </button>
 
-</div>
+            </div>
+
+        </section>
+
+
+
+        <!-- ===========================
+                RIGHT PANEL
+        ============================ -->
+
+        <aside class="right-panel">
+
+                        <!-- ===========================
+                    QUESTION PALETTE
+            ============================ -->
+
+            <div class="sidebar-card">
+
+                <h3>Question Palette</h3>
+
+                <div id="questionPalette">
+
+                    <!-- Generated by JavaScript -->
+
+                </div>
+
+            </div>
+
+
+            <!-- ===========================
+                    PROGRESS SUMMARY
+            ============================ -->
+
+            <div class="sidebar-card">
+
+                <h3>Assessment Progress</h3>
+
+                <div class="progress-summary">
+
+                    <div class="summary-item">
+
+                        <span>Answered</span>
+
+                        <span id="answeredCount">0</span>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Marked for Review</span>
+
+                        <span id="reviewCount">0</span>
+
+                    </div>
+
+                    <div class="summary-item">
+
+                        <span>Remaining</span>
+
+                        <span id="remainingCount">15</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===========================
+                    LEGEND
+            ============================ -->
+
+            <div class="sidebar-card">
+
+                <h3>Status Legend</h3>
+
+                <div class="legend">
+
+                    <div class="legend-item">
+
+                        <span class="legend-color answered"></span>
+
+                        <span>Answered</span>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-color review"></span>
+
+                        <span>Marked for Review</span>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-color current"></span>
+
+                        <span>Current Question</span>
+
+                    </div>
+
+                    <div class="legend-item">
+
+                        <span class="legend-color unanswered"></span>
+
+                        <span>Not Answered</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ===========================
+                    SUBMIT BUTTON
+            ============================ -->
+
+            <button id="submitBtn">
+
+                🚀 Submit Assessment
+
+            </button>
+
+        </aside>
+
+    </main>
+
+
+
+    <!-- ===========================
+            SUBMIT MODAL
+    ============================ -->
+
+    <div id="submitModal" class="modal">
+
+        <div class="modal-content">
+
+            <h2>
+
+                Submit Assessment?
+
+            </h2>
+
+            <p>
+
+                Please review your answers before submitting.
+
+            </p>
+
+            <div class="modal-buttons">
+
+                <button id="cancelSubmit">
+
+                    Continue Test
+
+                </button>
+
+                <button id="confirmSubmit">
+
+                    Submit
+
+                </button>
+
+            </div>
 
         </div>
 
     </div>
 
+
+
     <script src="js/aptitude-test.js"></script>
 
 </body>
 
+</html>
 </html>

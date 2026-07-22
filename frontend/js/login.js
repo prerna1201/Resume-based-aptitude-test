@@ -30,13 +30,17 @@ loginForm.addEventListener("submit", function (event) {
 
     // Check email and password
 
-    if (email === storedUser.email && password === storedUser.password) {
+   if (email === storedUser.email && password === storedUser.password) {
 
-        alert("Login Successful!");
+    alert("Login Successful!");
 
-        window.location.href = "dashboard.html";
+    // Save Login Status
 
-    } else {
+    localStorage.setItem("isLoggedIn", "true");
+
+    window.location.href = "dashboard.html";
+
+} else {
 
         alert("Invalid Email or Password!");
 
