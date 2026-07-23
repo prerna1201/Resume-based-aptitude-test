@@ -1,48 +1,67 @@
-// ===============================
-// Login Form
-// ===============================
-
 const loginForm = document.getElementById("loginForm");
 
-loginForm.addEventListener("submit", function (event) {
+console.log("login.js loaded");
+
+loginForm.addEventListener("submit", async function (event) {
+
+    console.log("Login button clicked");
 
     event.preventDefault();
 
-    // Get user input
-
-    const email = document.getElementById("email").value.trim();
-
+    const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value;
 
-    // Get registered user from Local Storage
+    console.log(username);
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    try {
 
-    // Check if user exists
+        console.log("Sending request...");
 
-    if (!storedUser) {
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/users/login/",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            }
+        );
 
-        alert("No account found! Please register first.");
+        console.log("Response received", response.status);
 
-        return;
+        const data = await response.json();
 
-    }
+        console.log(data);
 
-    // Check email and password
+      if (response.ok) {
 
-   if (email === storedUser.email && password === storedUser.password) {
+    localStorage.setItem("access", data.access);
+    localStorage.setItem("refresh", data.refresh);
+
+    // IMPORTANT
+    localStorage.setItem("user", JSON.stringify({
+        name: username
+    }));
 
     alert("Login Successful!");
 
-    // Save Login Status
-
-    localStorage.setItem("isLoggedIn", "true");
-
     window.location.href = "dashboard.html";
+}
+        } else {
 
-} else {
+            alert(data.error);
 
-        alert("Invalid Email or Password!");
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Cannot connect to backend.");
 
     }
 

@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!authSection) return;
 
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const token = localStorage.getItem("access");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    if (isLoggedIn === "true" && user) {
+    if (token && user) {
 
         authSection.innerHTML = `
             <div class="dropdown">
@@ -49,15 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-        const logoutBtn = document.getElementById("logoutBtn");
-
-        logoutBtn.addEventListener("click", function (e) {
+        document.getElementById("logoutBtn").addEventListener("click", (e) => {
 
             e.preventDefault();
 
-            localStorage.removeItem("isLoggedIn");
+            localStorage.removeItem("access");
+            localStorage.removeItem("refresh");
+            localStorage.removeItem("user");
+            localStorage.removeItem("resume_id");
 
-            window.location.href = "index.html";
+            window.location.href = "login.html";
 
         });
 

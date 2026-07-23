@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+     "corsheaders",
 
     # Third Party Apps
     "rest_framework",
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
 # -------------------------------------------------------------------
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -187,3 +189,7 @@ SPECTACULAR_SETTINGS = {
     "DESCRIPTION": "API documentation for Resume Based Aptitude Test Platform",
     "VERSION": "1.0.0",
 }
+CORS_ALLOWED_ORIGINS = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]

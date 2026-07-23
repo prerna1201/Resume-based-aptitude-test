@@ -1,35 +1,38 @@
-// =========================================
-// Resume Analysis
-// =========================================
+const token = localStorage.getItem("access");
 
-// Get User Data
+if (!token) {
+    location.href = "login.html";
+}
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-// Get Heading
-
-const candidateName = document.getElementById("candidateName");
-
-// Check User
-
 if (user) {
-
-    candidateName.textContent = `Resume Analysis - ${user.name}`;
-
-} else {
-
-    window.location.href = "login.html";
-
+    document.getElementById("candidateName").textContent =
+        `Resume Analysis - ${user.name}`;
 }
 
-// =========================================
-// Generate Test Button
-// =========================================
+const skills = JSON.parse(localStorage.getItem("skills")) || [];
 
-const generateTestBtn = document.getElementById("generateTestBtn");
+const container = document.querySelector(".skills-container");
 
-generateTestBtn.addEventListener("click", () => {
+container.innerHTML = "";
 
-    window.location.href = "aptitude-test.html";
+skills.forEach(skill => {
+
+    const span = document.createElement("span");
+
+    span.className = "skill";
+
+    span.textContent = skill;
+
+    container.appendChild(span);
+
+});
+
+document
+.getElementById("generateTestBtn")
+.addEventListener("click", () => {
+
+    location.href = "aptitude-test.html";
 
 });
