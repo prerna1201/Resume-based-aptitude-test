@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Question(models.Model):
@@ -49,6 +50,8 @@ class Question(models.Model):
 
 class Test(models.Model):
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="tests")
+
     title = models.CharField(max_length=200)
 
     skills = models.TextField(
@@ -64,7 +67,19 @@ class Test(models.Model):
         return self.title
 
 
+class TestQuestion(models.Model):
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name="test_questions")
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["test", "question"], name="unique_test_question")
+        ]
+
+
 class Result(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="results")
 
     test = models.ForeignKey(
         Test,

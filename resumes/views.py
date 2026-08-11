@@ -2,12 +2,13 @@ from rest_framework import generics, status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+import PyPDF2
 
 from drf_spectacular.utils import extend_schema
 
 from .models import Resume, ResumeSkill, Skill
 from .serializers import ResumeSerializer
-from .parser import extract_text_from_pdf
+from .parser import extract_text_from_resume
 from .skills import extract_skills
 
 
@@ -22,36 +23,54 @@ class ResumeUploadView(generics.CreateAPIView):
     parser_classes = (MultiPartParser, FormParser)
 
     def create(self, request, *args, **kwargs):
-        # your existing code
-        ...
+        try:
+            # Validate request
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+            # Save resume with logged-in user
+            resume = serializer.save(user=request.user)
 
-        # Attach logged-in user
-        resume = serializer.save(user=request.user)
+            # Extract text from PDF
+            text = extract_text_from_resume(resume.resume.path)
 
-        # Extract text from uploaded PDF
-        text = extract_text_from_pdf(resume.resume.path)
+            print("=" * 80)
+            print("Extracted Resume Text:")
+            print(text)
+            print("=" * 80)
 
-        # Extract skills
-        skills = extract_skills(text)
+            # Extract skills
+            skills = extract_skills(text)
+            print("Extracted Skills:")
+            print(skills)
 
-        # Save skills
-        for skill_name in skills:
+            # Save skills in database
+            for skill_name in skills:
+                skill_obj, created = Skill.objects.get_or_create(
+                    name=skill_name.lower().strip()
+                )
 
-            skill_obj, created = Skill.objects.get_or_create(
-                name=skill_name.lower().strip()
+                ResumeSkill.objects.get_or_create(
+                    resume=resume,
+                    skill=skill_obj
+                )
+
+            # Success response
+            return Response(
+                {
+                    "message": "Resume uploaded successfully",
+                    "resume_id": resume.id,
+                    "skills": skills,
+                },
+                status=status.HTTP_201_CREATED,
             )
 
-            ResumeSkill.objects.create(
-                resume=resume,
-                skill=skill_obj
+        except (ValueError, PyPDF2.errors.PdfReadError) as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response(
+                {
+                    "error": str(e),
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-
-        # Return response AFTER all skills are saved
-        return Response({
-            "message": "Resume uploaded successfully",
-            "resume_id": resume.id,
-            "skills": skills
-        })

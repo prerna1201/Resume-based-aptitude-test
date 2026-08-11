@@ -9,7 +9,7 @@
    (Later these will come from Django + Gemini)
 ========================================================= */
 
-const questions = [
+/*const questions = [
 
     {
 
@@ -99,7 +99,23 @@ const questions = [
 
     }
 
-];
+]; */
+
+const questions =
+    JSON.parse(localStorage.getItem("questions")) || [];
+
+getAuthenticatedUser().then(user => {
+    if (!user?.full_name) {
+        window.location.href = "login.html";
+        return;
+    }
+    document.getElementById("candidateName").textContent = user.full_name;
+});
+
+if (questions.length === 0) {
+    alert("No questions found. Please generate a test first.");
+    window.location.href = "resume-analysis.html";
+}
 
 
 /* =========================================================
@@ -429,7 +445,46 @@ cancelSubmit.addEventListener("click", () => {
    SUBMIT ASSESSMENT
 ========================================================= */
 
-function submitAssessment() {
+async function submitAssessment() {
+
+    const token = localStorage.getItem("access");
+    const testId = localStorage.getItem("test_id");
+
+    if (!token || !testId) {
+        alert("Your test session is missing. Please generate a new test.");
+        window.location.href = "resume-analysis.html";
+        return;
+    }
+
+    const payload = {};
+    questions.forEach((question, index) => {
+        if (answers[index] !== null && question.id) {
+            payload[question.id] = question.options[answers[index]];
+        }
+    });
+
+    try {
+        const response = await fetch("http://127.0.0.1:8000/api/tests/submit/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ test_id: Number(testId), answers: payload })
+        });
+
+        const result = await response.json();
+        if (response.status === 401) {
+            clearSession();
+            window.location.href = "login.html";
+            return;
+        }
+        if (!response.ok) {
+            alert(result.detail || "Could not submit the assessment.");
+            return;
+        }
+
+        localStorage.setItem("resultSummary", JSON.stringify(result));
 
     localStorage.setItem(
 
@@ -449,13 +504,15 @@ function submitAssessment() {
 
     localStorage.setItem(
 
-        "assessmentScore",
-
-        answers.filter((ans, index) => ans === questions[index].answer).length
+        "assessmentScore", result.score
 
     );
 
-    window.location.href = "result.html";
+        window.location.href = "result.html";
+    } catch (error) {
+        console.error(error);
+        alert("Cannot connect to backend.");
+    }
 
 }
 

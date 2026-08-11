@@ -43,6 +43,7 @@ registerForm.addEventListener("submit", async function (event) {
 
             body: JSON.stringify({
                 username: name,
+                email: email,
                 password: password
             })
 

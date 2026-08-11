@@ -1,16 +1,16 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Question, Result, UserAnswer
+from .models import Question, Test, TestQuestion, Result, UserAnswer
 from .serializers import (
     QuestionSerializer,
     ResultSerializer,
     UserAnswerSerializer
 )
 
-from resumes.models import ResumeSkill
+from resumes.models import Resume, ResumeSkill
 from .generator import generate_test
 
 
@@ -34,6 +34,10 @@ class GenerateTestView(APIView):
 
     def get(self, request, resume_id):
 
+        # A valid token must never allow access to another candidate's resume.
+        if not Resume.objects.filter(id=resume_id, user=request.user).exists():
+            return Response({"detail": "Resume not found."}, status=status.HTTP_404_NOT_FOUND)
+
         skills = ResumeSkill.objects.filter(resume_id=resume_id)
 
         skill_names = [
@@ -41,39 +45,44 @@ class GenerateTestView(APIView):
             for skill in skills
         ]
 
-        questions = generate_test(skill_names)
+        generated_questions = generate_test(skill_names)
+        test = Test.objects.create(
+            user=request.user,
+            title="Resume aptitude test",
+            skills=", ".join(skill_names),
+        )
 
         data = []
 
-        for q in questions:
+        for q in generated_questions:
 
             # AI-generated questions
             if isinstance(q, dict):
-                data.append({
-                    "id": None,
-                    "question": q["question"],
-                    "option1": q["option1"],
-                    "option2": q["option2"],
-                    "option3": q["option3"],
-                    "option4": q["option4"],
-                    "correct_answer": q["correct_answer"],
-                    "category": q["category"],
-                })
+                category = str(q.get("category", "aptitude")).lower()
+                valid_categories = {choice[0] for choice in Question.CATEGORY_CHOICES}
+                category = category if category in valid_categories else "aptitude"
+                try:
+                    q = Question.objects.create(
+                        question_text=q["question"], option1=q["option1"], option2=q["option2"],
+                        option3=q["option3"], option4=q["option4"],
+                        correct_answer=q["correct_answer"], category=category, difficulty="medium",
+                    )
+                except KeyError:
+                    continue
 
             # Database questions
-            else:
-                data.append({
-                    "id": q.id,
-                    "question": q.question_text,
-                    "option1": q.option1,
-                    "option2": q.option2,
-                    "option3": q.option3,
-                    "option4": q.option4,
-                    "correct_answer": q.correct_answer,
-                    "category": q.category,
-                })
+            TestQuestion.objects.get_or_create(test=test, question=q)
+            data.append({
+                "id": q.id, "question": q.question_text,
+                "options": [q.option1, q.option2, q.option3, q.option4],
+                "topic": q.category,
+            })
 
-        return Response(data)
+        if not data:
+            test.delete()
+            return Response({"detail": "No valid questions could be generated."}, status=status.HTTP_502_BAD_GATEWAY)
+
+        return Response({"test_id": test.id, "questions": data})
 # -----------------------------
 # SUBMIT TEST (CORE LOGIC)
 # -----------------------------
@@ -83,13 +92,23 @@ class SubmitTestView(APIView):
     def post(self, request):
 
         answers = request.data.get("answers", {})
+        test_id = request.data.get("test_id")
+
+        if not isinstance(answers, dict) or not test_id:
+            return Response({"detail": "test_id and an answers object are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            test = Test.objects.get(id=test_id, user=request.user)
+        except Test.DoesNotExist:
+            return Response({"detail": "Test not found."}, status=status.HTTP_404_NOT_FOUND)
 
         score = 0
-        total = len(answers)
+        total = test.test_questions.count()
 
         # 🔥 FIX: attach user
         result = Result.objects.create(
             user=request.user,
+            test=test,
             score=0,
             total_questions=total
         )
@@ -97,7 +116,7 @@ class SubmitTestView(APIView):
         for question_id, selected_answer in answers.items():
 
             try:
-                question = Question.objects.get(id=question_id)
+                question = Question.objects.get(id=question_id, testquestion__test=test)
 
                 is_correct = (question.correct_answer == selected_answer)
 
@@ -111,7 +130,7 @@ class SubmitTestView(APIView):
                     is_correct=is_correct
                 )
 
-            except Question.DoesNotExist:
+            except (Question.DoesNotExist, ValueError, TypeError):
                 pass
 
         result.score = score

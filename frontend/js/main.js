@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         type="button"
                         data-bs-toggle="dropdown">
 
-                    👤 ${user.name}
+                    👤 ${user.full_name}
 
                 </button>
 
@@ -53,10 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             e.preventDefault();
 
-            localStorage.removeItem("access");
-            localStorage.removeItem("refresh");
-            localStorage.removeItem("user");
-            localStorage.removeItem("resume_id");
+            clearSession();
 
             window.location.href = "login.html";
 

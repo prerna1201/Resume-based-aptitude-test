@@ -4,7 +4,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = getStoredUser();
 
     if (!user) {
 
@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Profile
 
-    document.getElementById("profileName").textContent = user.name;
+    document.getElementById("profileName").textContent = user.full_name;
     document.getElementById("profileEmail").textContent = user.email;
 
-    document.getElementById("fullName").value = user.name;
+    document.getElementById("fullName").value = user.full_name;
     document.getElementById("email").value = user.email;
 
     document.getElementById("college").value = user.college || "";
@@ -43,9 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.getElementById("saveProfile").addEventListener("click",()=>{
 
-    const user = JSON.parse(localStorage.getItem("user"));
+    const user = getStoredUser();
 
-    user.name = document.getElementById("fullName").value;
+    user.full_name = document.getElementById("fullName").value;
     user.college = document.getElementById("college").value;
     user.branch = document.getElementById("branch").value;
     user.year = document.getElementById("year").value;

@@ -1,33 +1,23 @@
 const accessToken = localStorage.getItem("access");
+const welcomeText = document.getElementById("welcomeText");
 
 if (!accessToken) {
     window.location.href = "login.html";
+} else {
+    getAuthenticatedUser().then(user => {
+        if (!user?.full_name) {
+            window.location.href = "login.html";
+            return;
+        }
+        welcomeText.textContent = `Welcome, ${user.full_name} 👋`;
+    });
 }
 
-const user = JSON.parse(localStorage.getItem("user"));
-
-const welcomeText = document.getElementById("welcomeText");
-
-if (user) {
-    welcomeText.textContent = `Welcome, ${user.name} 👋`;
-}
-
-const logoutCard = document.getElementById("logoutCard");
-
-logoutCard.addEventListener("click", () => {
-
-    localStorage.removeItem("access");
-    localStorage.removeItem("refresh");
-    localStorage.removeItem("user");
-
+document.getElementById("logoutCard").addEventListener("click", () => {
+    clearSession();
     window.location.href = "login.html";
-
 });
 
-const uploadResume = document.getElementById("uploadResume");
-
-uploadResume.addEventListener("click", () => {
-
+document.getElementById("uploadResume").addEventListener("click", () => {
     window.location.href = "resume-upload.html";
-
 });

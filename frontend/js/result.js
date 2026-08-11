@@ -2,41 +2,28 @@
    LOAD RESULT DATA
 ========================================== */
 
-const questions = JSON.parse(localStorage.getItem("questions")) || [];
+const summary = JSON.parse(localStorage.getItem("resultSummary"));
 
-const answers = JSON.parse(localStorage.getItem("assessmentAnswers")) || [];
-
-const review = JSON.parse(localStorage.getItem("assessmentReview")) || [];
-
-let correct = 0;
-let wrong = 0;
-let unanswered = 0;
-
-questions.forEach((q, index) => {
-
-    if (answers[index] == null) {
-
-        unanswered++;
-
+getAuthenticatedUser().then(user => {
+    if (!user?.full_name) {
+        window.location.href = "login.html";
+        return;
     }
-
-    else if (answers[index] === q.answer) {
-
-        correct++;
-
-    }
-
-    else {
-
-        wrong++;
-
-    }
-
+    const nameElement = document.getElementById("loggedInUser");
+    if (nameElement) nameElement.textContent = user.full_name;
 });
 
-const total = questions.length || 10;
+if (!summary) {
+    window.location.href = "dashboard.html";
+}
 
-const accuracy = Math.round((correct / total) * 100);
+const correct = summary ? summary.score : 0;
+const total = summary ? summary.total_questions : 0;
+const answered = JSON.parse(localStorage.getItem("assessmentAnswers")) || [];
+const unanswered = Math.max(0, total - answered.filter(answer => answer !== null).length);
+const wrong = Math.max(0, total - correct - unanswered);
+
+const accuracy = total ? Math.round((correct / total) * 100) : 0;
 /* ==========================================
    UPDATE DASHBOARD
 ========================================== */
@@ -372,10 +359,102 @@ window.location.href="aptitude-test.html";
    DOWNLOAD REPORT
 ========================================== */
 
-document.getElementById("downloadBtn")
+document.getElementById("downloadBtn").addEventListener("click", async () => {
 
-.addEventListener("click",()=>{
+    const { jsPDF } = window.jspdf;
 
-alert("PDF Report will be available after backend integration.");
+    const doc = new jsPDF();
+
+    const user = await getAuthenticatedUser();
+
+    const candidateName = user?.full_name || "Candidate";
+    const email = user?.email || "Not Available";
+
+    const percentage = accuracy;
+    const score = correct;
+
+    const skills =
+        JSON.parse(localStorage.getItem("resumeSkills")) ||
+        ["HTML", "CSS", "JavaScript"];
+
+    doc.setFontSize(20);
+    doc.text("AptiResume AI Report", 20, 20);
+
+    doc.setFontSize(12);
+
+    let y = 40;
+
+    doc.text(`Candidate Name : ${candidateName}`,20,y);
+    y+=10;
+
+    doc.text(`Email : ${email}`,20,y);
+    y+=10;
+
+    doc.text(`Date : ${new Date().toLocaleDateString()}`,20,y);
+    y+=10;
+
+    doc.text(`Score : ${score}/${total}`,20,y);
+    y+=10;
+
+    doc.text(`Percentage : ${percentage}%`,20,y);
+    y+=10;
+
+    doc.text(`Correct Answers : ${correct}`,20,y);
+    y+=10;
+
+    doc.text(`Wrong Answers : ${wrong}`,20,y);
+    y+=10;
+
+    doc.text(`Unanswered : ${unanswered}`,20,y);
+    y+=10;
+
+    doc.text(`Skills : ${skills.join(", ")}`,20,y);
+    y+=15;
+
+    doc.setFontSize(16);
+    doc.text("AI Feedback",20,y);
+
+    y+=10;
+
+    doc.setFontSize(11);
+
+    const feedbackLines = doc.splitTextToSize(feedback,170);
+
+    doc.text(feedbackLines,20,y);
+
+    y += feedbackLines.length * 7 + 10;
+
+    doc.setFontSize(16);
+    doc.text("Recommendation",20,y);
+
+    y+=10;
+
+    doc.setFontSize(11);
+
+    if(accuracy>=90){
+
+        doc.text("Excellent performance. Keep learning advanced topics.",20,y);
+
+    }
+
+    else if(accuracy>=75){
+
+        doc.text("Improve SQL and Logical Reasoning.",20,y);
+
+    }
+
+    else if(accuracy>=60){
+
+        doc.text("Practice coding questions every day.",20,y);
+
+    }
+
+    else{
+
+        doc.text("Revise fundamentals and solve aptitude questions regularly.",20,y);
+
+    }
+
+    doc.save(`AptiResume_Report_${candidateName}.pdf`);
 
 });

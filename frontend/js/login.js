@@ -41,21 +41,16 @@ loginForm.addEventListener("submit", async function (event) {
 
     localStorage.setItem("access", data.access);
     localStorage.setItem("refresh", data.refresh);
-
-    // IMPORTANT
-    localStorage.setItem("user", JSON.stringify({
-        name: username
-    }));
+    localStorage.setItem("user", JSON.stringify(data.user));
 
     alert("Login Successful!");
-
     window.location.href = "dashboard.html";
+
+} else {
+
+    alert(data.error || data.detail || "Login failed.");
+
 }
-        } else {
-
-            alert(data.error);
-
-        }
 
     } catch (error) {
 

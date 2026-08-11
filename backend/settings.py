@@ -14,20 +14,17 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Load environment variables
+load_dotenv(BASE_DIR / ".env")
 load_dotenv(BASE_DIR / "backend" / ".env")
-
-print("BASE_DIR:", BASE_DIR)
-print("ENV EXISTS:", (BASE_DIR / ".env").exists())
-print("DEBUG ENV:", repr(os.getenv("DEBUG")))
 # -------------------------------------------------------------------
 # Security
 # -------------------------------------------------------------------
 
-SECRET_KEY = os.getenv("SECRET_KEY")
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-development-key-change-in-production")
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # Gemini AI Configuration
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -114,6 +111,18 @@ DATABASES = {
     }
 }
 
+# Use PostgreSQL when its connection values are supplied.  SQLite remains a
+# convenient local fallback so a fresh clone can still be run immediately.
+if os.getenv("POSTGRES_DB"):
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER", "postgres"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD", ""),
+        "HOST": os.getenv("POSTGRES_HOST", "127.0.0.1"),
+        "PORT": os.getenv("POSTGRES_PORT", "5432"),
+    }
+
 # -------------------------------------------------------------------
 # Password Validation
 # -------------------------------------------------------------------
@@ -150,6 +159,8 @@ USE_TZ = True
 # -------------------------------------------------------------------
 
 STATIC_URL = "static/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 # -------------------------------------------------------------------
 # Default Primary Key

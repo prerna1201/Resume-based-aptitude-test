@@ -12,6 +12,7 @@ class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = "__all__"
+        read_only_fields = ["user", "test", "score", "total_questions", "submitted_at"]
 
 
 class UserAnswerSerializer(serializers.ModelSerializer):

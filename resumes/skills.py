@@ -1,12 +1,6 @@
-import string
-
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
+import re
 
 from .models import Skill
-
-STOP_WORDS = set(stopwords.words("english"))
-
 
 def extract_skills(text):
     """
@@ -14,17 +8,7 @@ def extract_skills(text):
     and the Skill database table.
     """
 
-    text = text.lower()
-
-    tokens = word_tokenize(text)
-
-    cleaned_tokens = [
-        token
-        for token in tokens
-        if token not in STOP_WORDS and token not in string.punctuation
-    ]
-
-    cleaned_text = " ".join(cleaned_tokens)
+    cleaned_text = text.lower()
 
     # Read skills from database
     skills = Skill.objects.values_list("name", flat=True)
@@ -32,7 +16,8 @@ def extract_skills(text):
     found_skills = []
 
     for skill in skills:
-        if skill.lower() in cleaned_text:
+        # Boundaries avoid matching a short skill inside an unrelated word.
+        if re.search(r"(?<!\w)" + re.escape(skill.lower()) + r"(?!\w)", cleaned_text):
             found_skills.append(skill)
 
     return sorted(set(found_skills))

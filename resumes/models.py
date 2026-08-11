@@ -32,3 +32,8 @@ class ResumeSkill(models.Model):
 
     def __str__(self):
         return self.skill.name
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["resume", "skill"], name="unique_resume_skill")
+        ]

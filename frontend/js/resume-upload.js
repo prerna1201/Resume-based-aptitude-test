@@ -1,3 +1,4 @@
+console.log("resume-upload.js loaded");
 // =========================================
 // Resume Upload
 // =========================================
@@ -21,6 +22,8 @@ chooseFileBtn.addEventListener("click", () => {
 
 resumeFile.addEventListener("change", () => {
 
+    console.log("Selected File:", resumeFile.files[0]);
+
     if (resumeFile.files.length === 0) {
 
         fileName.textContent = "No file selected";
@@ -36,13 +39,12 @@ resumeFile.addEventListener("change", () => {
 
     const allowedTypes = [
         "application/pdf",
-        "application/msword",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     ];
 
     if (!allowedTypes.includes(file.type)) {
 
-        alert("Please upload only PDF or DOC/DOCX files.");
+        alert("Please upload only PDF or DOCX files.");
 
         resumeFile.value = "";
 
@@ -80,6 +82,8 @@ resumeFile.addEventListener("change", () => {
 
 analyzeBtn.addEventListener("click", async () => {
 
+    console.log("Analyze clicked");
+
     const file = resumeFile.files[0];
 
     if (!file) {
@@ -115,27 +119,33 @@ analyzeBtn.addEventListener("click", async () => {
             }
         );
 
-        const text = await response.text();
+        console.log("Response Status:", response.status);
+console.log("Response OK:", response.ok);
 
-console.log(text);
+const responseText = await response.text();
+console.log("Raw Response:", responseText);
 
-const data = JSON.parse(text);
+let data = {};
 
-        console.log(data);
+try {
+    data = JSON.parse(responseText);
+    console.log("Parsed Data:", data);
+} catch (e) {
+    console.error("JSON Parse Error:", e);
+    console.error("Server Response:", responseText);
+    alert("Server returned an invalid response.");
+    return;
+}
 
         if (response.ok) {
 
-            localStorage.setItem("resume_id", data.resume_id);
+            localStorage.setItem("resume_id", String(data.resume_id));
+            localStorage.setItem("skills", JSON.stringify(data.skills));
+            localStorage.setItem("resume_file", file.name);
 
-            alert("Resume uploaded successfully!");
-
-console.log("Before redirect");
-
-setTimeout(() => {
-    window.location.assign("resume-analysis.html");
-}, 500);
-
-console.log("After redirect");
+            // Do not block navigation behind a browser alert. A relative URL
+            // keeps this working whether the frontend is served from / or /frontend/.
+            window.location.replace("resume-analysis.html");
 
         } else {
 
